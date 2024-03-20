@@ -1,0 +1,54 @@
+{
+  "data_paths": {
+    "raw_data": "data/raw/raw_data.csv",
+    "post_code_data": "data/raw/zipcodes_num_nl_new.csv",
+    "cleaned_data": "data/cleaned/cleaned_data.csv",
+    "immo_AP_path": "data/interim/immo_apartments.csv",
+    "immo_H_path": "data/interim/immo_houses.csv",
+    "null_values_houses_path": "data/interim/null_values_houses.csv",
+    "null_values_apartments_path": "data/interim/null_values_apartments.csv",
+    "training_data": "data/cleaned/training_data.csv",
+    "testing_data":  "data/cleaned/cleaned_data.csv",
+    "h_X_train": "data/processed/X_train_house.csv",
+    "h_X_test": "data/processed/X_test_house.csv",
+    "h_y_train": "data/processed/y_train_house.csv",
+    "h_y_test": "data/processed/y_test_house.csv",
+    "ap_X_train": "data/processed/X_train_apartment.csv",
+    "ap_X_test": "data/processed/X_test_apartment.csv",
+    "ap_y_train": "data/processed/y_train_apartment.csv",
+    "ap_y_test": "data/processed/y_test_apartment.csv",
+    "h_k_fold_cross_val_df": "data/processed/h_k_fold_cross_val_df.csv",
+    "ap_k_fold_cross_val_df": "data/processed/ap_k_fold_cross_val_df.csv"
+  },
+
+  "state_of_building_encoder" : {
+    "TO_RESTORE": 1,
+    "TO_RENOVATE": 2,
+    "TO_BE_DONE_UP": 3,
+    "GOOD": 4,
+    "JUST_RENOVATED": 5,
+    "AS_NEW": 6},
+
+  "kitchen_type_encoder" : {
+    "USA_HYPER_EQUIPPED": 3,
+    "HYPER_EQUIPPED": 3,
+    "USA_SEMI_EQUIPPED": 2,
+    "SEMI_EQUIPPED": 2,
+    "USA_INSTALLED": 1,
+    "INSTALLED": 1,
+    "USA_UNINSTALLED": 0,
+    "NOT_INSTALLED": 0
+  },
+
+  "epc_encoder" : {
+    "A++": 9,
+    "A+": 8,
+    "A": 7,
+    "B": 6,
+    "C": 5,
+    "D": 4,
+    "E": 3,
+    "F": 2,
+    "G": 1
+    }
+}
