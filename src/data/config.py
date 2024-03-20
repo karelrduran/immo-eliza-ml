@@ -51,6 +51,14 @@ class Config:
         self.ap_X_test_path = os.path.join(self.project_dir, self.settings['data_paths']['ap_X_test'])
         self.ap_y_train_path = os.path.join(self.project_dir, self.settings['data_paths']['ap_y_train'])
         self.ap_y_test_path = os.path.join(self.project_dir, self.settings['data_paths']['ap_y_test'])
+        self.h_X_path = os.path.join(self.project_dir, self.settings['data_paths']['h_X_path'])
+        self.h_y_path = os.path.join(self.project_dir, self.settings['data_paths']['h_y_path'])
+        self.ap_X_path = os.path.join(self.project_dir, self.settings['data_paths']['ap_X_path'])
+        self.ap_y_path = os.path.join(self.project_dir, self.settings['data_paths']['ap_y_path'])
+
+
+        self.h_fake_data_path = os.path.join(self.project_dir, self.settings['data_paths']['h_fake_data_path'])
+        self.ap_fake_data_path = os.path.join(self.project_dir, self.settings['data_paths']['ap_fake_data_path'])
 
         self.h_k_fold_cross_val_df = os.path.join(self.project_dir,
                                                   self.settings['data_paths']['h_k_fold_cross_val_df'])

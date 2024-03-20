@@ -1,5 +1,7 @@
-from typing import Dict
+from typing import Dict, Tuple
 import pandas as pd
+from sklearn.model_selection import train_test_split
+from src.data.config import Config
 
 
 class Transformation:
@@ -55,6 +57,27 @@ class Transformation:
             outliers_removed = group[(group['Price'] >= lower_bound) & (group['Price'] <= upper_bound)]
             df_clean = pd.concat([df_clean, outliers_removed])
         return df_clean
+
+    @classmethod
+    def split_data(cls, X: pd.DataFrame, y: pd.Series, test_size: float = 0.2, random_state: int = 42) -> Tuple:
+        """
+        Split the input data into training and testing sets.
+
+        Parameters:
+            X (pd.DataFrame): The feature dataset.
+            y (pd.Series): The target dataset.
+            test_size (float, optional): The proportion of the dataset to include in the test split.
+                                          Defaults to 0.2.
+            random_state (int, optional): Controls the randomness of the training and testing data split.
+                                           Defaults to 42.
+
+        Returns:
+            Tuple: A tuple containing the training and testing sets for both features and targets,
+                   in the order (X_train, X_test, y_train, y_test).
+        """
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2,
+                                                            random_state=42)
+        return X_train, X_test, y_train, y_test
 
     @classmethod
     def column_one_hot_encoded(cls, df: pd.DataFrame, column: str) -> pd.DataFrame:
@@ -121,3 +144,29 @@ class Transformation:
                 median)
 
         return df_imputed
+
+    @classmethod
+    def concat_dataframes(cls,property_type: str = 'house'):
+        config = Config()
+
+        X_train = pd.DataFrame()
+        X_test = pd.DataFrame()
+        y_train = pd.DataFrame()
+        y_test = pd.DataFrame()
+
+        if property_type == 'house':
+            X_train = pd.read_csv(config.h_X_train_path)
+            X_test = pd.read_csv(config.h_X_test_path)
+            y_train = pd.read_csv(config.h_y_train_path)
+            y_test = pd.read_csv(config.h_y_test_path)
+        elif property_type == 'apartment':
+            X_train = pd.read_csv(config.ap_X_train_path)
+            X_test = pd.read_csv(config.ap_X_test_path)
+            y_train = pd.read_csv(config.ap_y_train_path)
+            y_test = pd.read_csv(config.ap_y_test_path)
+
+        X = pd.concat([X_train, X_test])
+        y = pd.concat([y_train, y_test])
+
+        X.to_csv(config.ap_X_path, index=False)
+        y.to_csv(config.ap_y_path, index=False)

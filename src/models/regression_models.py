@@ -15,6 +15,7 @@ import numpy as np
 pd.set_option('future.no_silent_downcasting', True)
 
 from ..data.data_validation import DataValidation
+from src.data.data_transformation import Transformation
 from ..data.config import Config
 
 config = Config()
@@ -40,7 +41,7 @@ class RegressionModels:
 
     """
 
-    def __init__(self, property_type: str = 'house'):
+    def __init__(self, property_type: str = 'house', X: pd.DataFrame = None, y: pd.Series = None):
         """
         Initialize the RegressionModels object.
 
@@ -50,24 +51,30 @@ class RegressionModels:
         Raises:
             ValueError: If an invalid property_type is provided.
         """
-        if property_type.lower() == 'house':
-            try:
-                self.X_train = pd.read_csv(config.h_X_train_path)
-                self.X_test = pd.read_csv(config.h_X_test_path)
-                self.y_train = pd.read_csv(config.h_y_train_path)
-                self.y_test = pd.read_csv(config.h_y_test_path)
-            except FileNotFoundError as e:
-                print(f"File Not Found: {e}")
-        elif property_type.lower() == 'apartment':
-            try:
-                self.X_train = pd.read_csv(config.ap_X_train_path)
-                self.X_test = pd.read_csv(config.ap_X_test_path)
-                self.y_train = pd.read_csv(config.ap_y_train_path)
-                self.y_test = pd.read_csv(config.ap_y_test_path)
-            except FileNotFoundError as e:
-                print(f"File Not Found: {e}")
+        if (X is None) and (y is None):
+            if property_type.lower() == 'house':
+                try:
+                    self.X_train = pd.read_csv(config.h_X_train_path)
+                    self.X_test = pd.read_csv(config.h_X_test_path)
+                    self.y_train = pd.read_csv(config.h_y_train_path)
+                    self.y_test = pd.read_csv(config.h_y_test_path)
+                except FileNotFoundError as e:
+                    print(f"File Not Found: {e}")
+            elif property_type.lower() == 'apartment':
+                try:
+                    self.X_train = pd.read_csv(config.ap_X_train_path)
+                    self.X_test = pd.read_csv(config.ap_X_test_path)
+                    self.y_train = pd.read_csv(config.ap_y_train_path)
+                    self.y_test = pd.read_csv(config.ap_y_test_path)
+                except FileNotFoundError as e:
+                    print(f"File Not Found: {e}")
+            else:
+                raise ValueError(f"Invalid property_type: {property_type}")
         else:
-            raise ValueError(f"Invalid property_type: {property_type}")
+            if (property_type.lower() == 'house') or (property_type.lower() == 'house'):
+                self.X_train, self.X_test, self.y_train, self.y_test = Transformation.split_data(X=X, y=y)
+            else:
+                raise ValueError(f"Invalid property_type: {property_type}")
 
         self.property_type = property_type.lower()
 

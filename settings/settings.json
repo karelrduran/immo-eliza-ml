@@ -18,7 +18,13 @@
     "ap_y_train": "data/processed/y_train_apartment.csv",
     "ap_y_test": "data/processed/y_test_apartment.csv",
     "h_k_fold_cross_val_df": "data/processed/h_k_fold_cross_val_df.csv",
-    "ap_k_fold_cross_val_df": "data/processed/ap_k_fold_cross_val_df.csv"
+    "ap_k_fold_cross_val_df": "data/processed/ap_k_fold_cross_val_df.csv",
+    "h_fake_data_path": "data/interim/h_fake_data.csv",
+    "ap_fake_data_path": "data/interim/ap_fake_data.csv",
+    "h_X_path": "data/processed/h_X.csv",
+    "h_y_path": "data/processed/h_y.csv",
+    "ap_X_path": "data/processed/ap_X.csv",
+    "ap_y_path": "data/processed/ap_y.csv"
   },
 
   "state_of_building_encoder" : {
