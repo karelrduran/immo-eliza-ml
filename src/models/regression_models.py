@@ -12,11 +12,12 @@ import pickle
 import pandas as pd
 import numpy as np
 
-pd.set_option('future.no_silent_downcasting', True)
-
 from ..data.data_validation import DataValidation
 from src.data.data_transformation import Transformation
 from ..data.config import Config
+
+pd.set_option('future.no_silent_downcasting', True)
+
 
 config = Config()
 
@@ -46,7 +47,8 @@ class RegressionModels:
         Initialize the RegressionModels object.
 
         Args:
-            property_type (str, optional): Type of property to consider (either 'house' or 'apartment'). Defaults to 'house'.
+            property_type (str, optional): Type of property to consider (either 'house' or 'apartment').
+            Defaults to 'house'.
 
         Raises:
             ValueError: If an invalid property_type is provided.
@@ -122,8 +124,11 @@ class RegressionModels:
         """Train the regression model."""
         self.model.fit(self.X_train, self.y_train)
 
-    def predict(self):
+    def predict(self, new_data: pd.DataFrame = None):
         """Make predictions using the trained model."""
+        if new_data is not None:
+            self.X_test = new_data
+
         self.y_pred = self.model.predict(self.X_test)
 
     def score(self):
@@ -162,15 +167,16 @@ class MultiLinearRegression(RegressionModels):
 
         Args:
             model_path (str, optional): Path to a saved model file. Defaults to None.
-            property_type (str, optional): Type of property to consider (either 'house' or 'apartment'). Defaults to 'house'.
+            property_type (str, optional): Type of property to consider (either 'house' or 'apartment').
+                                           Defaults to 'house'.
         """
         super().__init__(property_type)
         if model_path is not None:
             self.load_model(model_path=model_path)
         else:
             self.model = LinearRegression()
+            self.fit()
 
-        self.fit()
         self.predict()
         self.score()
 
@@ -193,15 +199,16 @@ class RidgeRegression(RegressionModels):
 
         Args:
             model_path (str, optional): Path to a saved model file. Defaults to None.
-            property_type (str, optional): Type of property to consider (either 'house' or 'apartment'). Defaults to 'house'.
+            property_type (str, optional): Type of property to consider (either 'house' or 'apartment').
+                                           Defaults to 'house'.
         """
         super().__init__(property_type)
         if model_path is not None:
             self.load_model(model_path=model_path)
         else:
             self.model = Ridge(alpha=0.1)
+            self.fit()
 
-        self.fit()
         self.predict()
         self.score()
 
@@ -224,15 +231,16 @@ class LassoRegression(RegressionModels):
 
         Args:
             model_path (str, optional): Path to a saved model file. Defaults to None.
-            property_type (str, optional): Type of property to consider (either 'house' or 'apartment'). Defaults to 'house'.
+            property_type (str, optional): Type of property to consider (either 'house' or 'apartment').
+                                           Defaults to 'house'.
         """
         super().__init__(property_type)
         if model_path is not None:
             self.load_model(model_path=model_path)
         else:
             self.model = Lasso(alpha=100)
+            self.fit()
 
-        self.fit()
         self.predict()
         self.score()
 
@@ -255,7 +263,8 @@ class RandomForestRegression(RegressionModels):
 
         Args:
             model_path (str, optional): Path to a saved model file. Defaults to None.
-            property_type (str, optional): Type of property to consider (either 'house' or 'apartment'). Defaults to 'house'.
+            property_type (str, optional): Type of property to consider (either 'house' or 'apartment').
+                                           Defaults to 'house'.
         """
         super().__init__(property_type)
 
@@ -265,8 +274,8 @@ class RandomForestRegression(RegressionModels):
             self.load_model(model_path=model_path)
         else:
             self.model = RandomForestRegressor(n_estimators=400, random_state=42)
+            self.fit()
 
-        self.fit()
         self.predict()
         self.score()
 
@@ -289,7 +298,8 @@ class GradientBoostingRegression(RegressionModels):
 
         Args:
             model_path (str, optional): Path to a saved model file. Defaults to None.
-            property_type (str, optional): Type of property to consider (either 'house' or 'apartment'). Defaults to 'house'.
+            property_type (str, optional): Type of property to consider (either 'house' or 'apartment').
+                                           Defaults to 'house'.
         """
         super().__init__(property_type)
 
@@ -299,8 +309,8 @@ class GradientBoostingRegression(RegressionModels):
             self.load_model(model_path=model_path)
         else:
             self.model = GradientBoostingRegressor(n_estimators=500, learning_rate=0.1, random_state=42)
+            self.fit()
 
-        self.fit()
         self.predict()
         self.score()
 
@@ -323,7 +333,8 @@ class KnnRegression(RegressionModels):
 
         Args:
             model_path (str, optional): Path to a saved model file. Defaults to None.
-            property_type (str, optional): Type of property to consider (either 'house' or 'apartment'). Defaults to 'house'.
+            property_type (str, optional): Type of property to consider (either 'house' or 'apartment').
+                                           Defaults to 'house'.
         """
         super().__init__(property_type)
 
@@ -331,8 +342,8 @@ class KnnRegression(RegressionModels):
             self.load_model(model_path=model_path)
         else:
             self.model = KNeighborsRegressor(n_neighbors=10)
+            self.fit()
 
-        self.fit()
         self.predict()
         self.score()
 
@@ -355,7 +366,8 @@ class DecisionTreeRegression(RegressionModels):
 
         Args:
             model_path (str, optional): Path to a saved model file. Defaults to None.
-            property_type (str, optional): Type of property to consider (either 'house' or 'apartment'). Defaults to 'house'.
+            property_type (str, optional): Type of property to consider (either 'house' or 'apartment').
+                                           Defaults to 'house'.
         """
         super().__init__(property_type)
 
@@ -363,8 +375,8 @@ class DecisionTreeRegression(RegressionModels):
             self.load_model(model_path=model_path)
         else:
             self.model = DecisionTreeRegressor(max_depth=500)
+            self.fit()
 
-        self.fit()
         self.predict()
         self.score()
 
@@ -387,7 +399,8 @@ class HistGradientBoostingRegression(RegressionModels):
 
         Args:
             model_path (str, optional): Path to a saved model file. Defaults to None.
-            property_type (str, optional): Type of property to consider (either 'house' or 'apartment'). Defaults to 'house'.
+            property_type (str, optional): Type of property to consider (either 'house' or 'apartment').
+                                           Defaults to 'house'.
         """
         super().__init__(property_type)
 
@@ -397,8 +410,8 @@ class HistGradientBoostingRegression(RegressionModels):
             self.load_model(model_path=model_path)
         else:
             self.model = HistGradientBoostingRegressor(loss='squared_error', learning_rate=0.1, random_state=42)
+            self.fit()
 
-        self.fit()
         self.predict()
         self.score()
 
@@ -421,7 +434,8 @@ class XGBoostRegression(RegressionModels):
 
         Args:
             model_path (str, optional): Path to a saved model file. Defaults to None.
-            property_type (str, optional): Type of property to consider (either 'house' or 'apartment'). Defaults to 'house'.
+            property_type (str, optional): Type of property to consider (either 'house' or 'apartment').
+                                           Defaults to 'house'.
         """
         super().__init__(property_type)
 
@@ -431,7 +445,7 @@ class XGBoostRegression(RegressionModels):
             self.load_model(model_path=model_path)
         else:
             self.model = XGBRegressor(learning_rate=0.1, n_estimators=150, booster='dart')
+            self.fit()
 
-        self.fit()
         self.predict()
         self.score()
